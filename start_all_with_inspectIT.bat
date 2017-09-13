@@ -35,7 +35,7 @@ goto :eof
 
 find  "Started ConfigServerApplication" spring-petclinic-config-server\configuration-log.txt > nul
 if errorlevel 1 (
-	timeout /T 1 > nul
+	ping 127.0.0.1 -n 2 > nul
 	goto :loop1
 )
 set /a "x = 0"
@@ -54,7 +54,7 @@ goto :eof
 )
 find  "Started DiscoveryServerApplication" spring-petclinic-discovery-server\discovery-log.txt > nul
 if errorlevel 1 (
-	timeout /T 1 > nul
+	ping 127.0.0.1 -n 2 > nul
 	goto :loop2
 )
 start "" http://localhost:8761
@@ -71,18 +71,18 @@ cd spring-petclinic-vets-service
 echo "Starting Vets Service"
 start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:%AGENTDIR%/inspectit-agent.jar -Dinspectit.repository=localhost:9070 -Dinspectit.agent.name=vets-service"
 cd ..
-timeout /T %WAITTIME% > nul
+ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-visits-service
 echo "Starting Visits Service"
 start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:%AGENTDIR%/inspectit-agent.jar -Dinspectit.repository=localhost:9070 -Dinspectit.agent.name=visits-service"
 cd ..
-timeout /T %WAITTIME% > nul
+ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-api-gateway
 echo "Starting API Gateway"
 if exist api-gateway-log.txt del api-gateway-log.txt
 start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:%AGENTDIR%/inspectit-agent.jar -Dinspectit.repository=localhost:9070 -Dinspectit.agent.name=api-gateway" > api-gateway-log.txt
 cd ..
-timeout /T %WAITTIME% > nul
+ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-admin-server
 echo "Starting Admin Server"
 start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:%AGENTDIR%/inspectit-agent.jar -Dinspectit.repository=localhost:9070 -Dinspectit.agent.name=admin-server"
@@ -96,7 +96,7 @@ goto :eof
 )
 find  "Started ApiGatewayApplication" spring-petclinic-api-gateway\api-gateway-log.txt > nul
 if errorlevel 1 (
-	timeout /T 1 > nul
+	ping 127.0.0.1 -n 2 > nul
 	goto :loop3
 )
 start "" http://localhost:8080
