@@ -82,11 +82,11 @@ echo "Starting API Gateway"
 if exist api-gateway-log.txt del api-gateway-log.txt
 start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:%AGENTDIR%/inspectit-agent.jar -Dinspectit.repository=localhost:9070 -Dinspectit.agent.name=api-gateway" > api-gateway-log.txt
 cd ..
-ping 127.0.0.1 -n %WAITTIME% > nul
-cd spring-petclinic-admin-server
-echo "Starting Admin Server"
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:%AGENTDIR%/inspectit-agent.jar -Dinspectit.repository=localhost:9070 -Dinspectit.agent.name=admin-server"
-cd ..
+rem ping 127.0.0.1 -n %WAITTIME% > nul
+rem cd spring-petclinic-admin-server
+rem echo "Starting Admin Server"
+rem start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:%AGENTDIR%/inspectit-agent.jar -Dinspectit.repository=localhost:9070 -Dinspectit.agent.name=admin-server"
+rem cd ..
 echo "Waiting for Api Gateway"
 :loop3
 set /a "x = x + 1"
