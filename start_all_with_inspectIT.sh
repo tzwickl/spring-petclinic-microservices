@@ -69,7 +69,7 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=admin-server" &
 	cd ..
 
-	./wait-for-it.sh localhost:8080 --timeout=240
+	./wait-for-it.sh localhost:8080 --timeout=600
 	xdg-open http://localhost:8080
 
 	echo "All Services started!"
