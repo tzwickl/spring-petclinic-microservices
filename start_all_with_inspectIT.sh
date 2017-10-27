@@ -41,6 +41,7 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=customers-service" &
 	cd ..
 
+  sleep 10
 	./wait-for-it.sh localhost:8761 --timeout=60
 
 	cd spring-petclinic-vets-service
@@ -48,6 +49,7 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=vets-service" &
 	cd ..
 
+  sleep 10
 	./wait-for-it.sh localhost:8761 --timeout=60
 
 	cd spring-petclinic-visits-service
@@ -55,6 +57,7 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=visits-service" &
 	cd ..
 
+  sleep 10
 	./wait-for-it.sh localhost:8761 --timeout=60
 
 	cd spring-petclinic-api-gateway
@@ -62,6 +65,7 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=api-gateway" &
 	cd ..
 
+  sleep 10
 	./wait-for-it.sh localhost:8761 --timeout=60
 
 	cd spring-petclinic-admin-server
@@ -69,6 +73,7 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=admin-server" &
 	cd ..
 
+  sleep 10
 	./wait-for-it.sh localhost:8080 --timeout=600
 	xdg-open http://localhost:8080
 
