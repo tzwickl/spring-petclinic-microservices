@@ -60,18 +60,18 @@ then
   sleep 10
 	./wait-for-it.sh localhost:8761 --timeout=60
 
-	cd spring-petclinic-api-gateway
-	echo "Starting API Gateway"
-	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=api-gateway" &
-	cd ..
-
-  sleep 10
-	./wait-for-it.sh localhost:8761 --timeout=60
-
 	cd spring-petclinic-admin-server
 	echo "Starting Admin Server"
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=admin-server" &
 	cd ..
+
+  sleep 10
+  ./wait-for-it.sh localhost:9090 --timeout=120
+
+  cd spring-petclinic-api-gateway
+  echo "Starting API Gateway"
+  mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=api-gateway" &
+  cd ..
 
   sleep 10
 	./wait-for-it.sh localhost:8080 --timeout=600
