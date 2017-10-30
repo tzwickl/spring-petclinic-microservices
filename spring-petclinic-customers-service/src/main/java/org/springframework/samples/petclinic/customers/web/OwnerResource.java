@@ -67,7 +67,7 @@ class OwnerResource {
     public List<Owner> findAll() {
         //TODO: 1 second delay for demo purposes only (tzwickl)
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (Exception e) {
             e.printStackTrace();
         }
