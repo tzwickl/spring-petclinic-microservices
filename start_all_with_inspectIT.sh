@@ -4,13 +4,17 @@
 #the path to the inspectit installation folder and the waittime between the startup of the services
 #!!!!do not use spaces in the path of the inspectIT installation folder!!!!
 
-if [ "$#" -ne 2 ]; then
-  echo "Please specify the path to the inspectIT agent and the host of the inspectIT CMR server "
+if [ "$#" -le 1 ]; then
+  echo "Please specify the path to the inspectIT agent"
   exit 1
+fi
+if [ "$#" -ne 2 ]; then
+  CMR_HOST="localhost"
+else
+  CMR_HOST="$2"
 fi
 
 AGENTDIR="$1"
-CMR_HOST="$2"
 
 if [ -e "$AGENTDIR/inspectit-agent.jar" ]
 then
@@ -41,7 +45,6 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=customers-service" &
 	cd ..
 
-  sleep 10
 	./wait-for-it.sh localhost:8761 --timeout=60
 
 	cd spring-petclinic-vets-service
@@ -49,7 +52,6 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=vets-service" &
 	cd ..
 
-  sleep 10
 	./wait-for-it.sh localhost:8761 --timeout=60
 
 	cd spring-petclinic-visits-service
@@ -57,7 +59,13 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=visits-service" &
 	cd ..
 
-  sleep 10
+	./wait-for-it.sh localhost:8761 --timeout=60
+
+	cd spring-petclinic-api-gateway
+	echo "Starting API Gateway"
+	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=api-gateway" &
+	cd ..
+
 	./wait-for-it.sh localhost:8761 --timeout=60
 
 	cd spring-petclinic-admin-server
@@ -65,22 +73,15 @@ then
 	mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=admin-server" &
 	cd ..
 
-  sleep 10
-  ./wait-for-it.sh localhost:9090 --timeout=120
-
-  cd spring-petclinic-api-gateway
-  echo "Starting API Gateway"
-  mvn spring-boot:run -Drun.jvmArguments="-javaagent:${AGENTDIR}/inspectit-agent.jar -Dinspectit.repository=${CMR_HOST}:9070 -Dinspectit.agent.name=api-gateway" &
-  cd ..
-
-  sleep 10
-	./wait-for-it.sh localhost:8080 --timeout=600
+	./wait-for-it.sh localhost:8080 --timeout=240
 	xdg-open http://localhost:8080
 
 	echo "All Services started!"
 
 else
-	echo Agent jar not found. Specify the path to the inspectIT agent
-	echo Example: ./start_all_with_inspectIT.sh /home/user/inspectIT/agent localhost
-	echo In case you have not installed inspectIT go to https://github.com/inspectIT/inspectIT/releases
+  echo Agent jar not found. Specify the path to the inspectIT agent
+  echo Example: ./start_all_with_inspectIT.sh /home/user/inspectIT/agent
+  echo Optionally you can also specify the CMR_HOST as second arugment
+  echo Example: ./start_all_with_inspectIT.sh /home/user/inspectIT/agent localhost
+  echo In case you have not installed inspectIT go to https://github.com/inspectIT/inspectIT/releases
 fi
