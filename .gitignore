@@ -12,3 +12,5 @@ target/
 
 # Branch switching
 generated/
+
+prometheus/data*

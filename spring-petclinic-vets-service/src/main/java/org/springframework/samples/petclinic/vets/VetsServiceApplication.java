@@ -15,11 +15,19 @@
  */
 package org.springframework.samples.petclinic.vets;
 
+import com.sun.net.httpserver.HttpServer;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.samples.petclinic.vets.system.VetsProperties;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
 
 /**
  * @author Maciej Szarlinski
@@ -30,6 +38,6 @@ import org.springframework.samples.petclinic.vets.system.VetsProperties;
 public class VetsServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VetsServiceApplication.class, args);
+	    SpringApplication.run(VetsServiceApplication.class, args);
 	}
 }

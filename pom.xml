@@ -32,6 +32,7 @@
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
         <sleuth.version>2.0.0.RC2</sleuth.version>
         <java.version>1.8</java.version>
+        <micrometer.version>1.0.6</micrometer.version>
 
         <docker.image.prefix>mszarlinski</docker.image.prefix>
         <docker.image.exposed.port>9090</docker.image.exposed.port>
