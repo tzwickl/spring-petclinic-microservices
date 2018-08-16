@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#mvn clean install -DskipTests
+mvn clean install -DskipTests
 
 cd spring-petclinic-config-server
 cd spring-petclinic-config-server
