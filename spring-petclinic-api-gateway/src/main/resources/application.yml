@@ -9,3 +9,4 @@ zuul:
 
 management.endpoints.web.exposure.include: health,info,prometheus
 management.metrics.export.prometheus.enabled: true
+spring.sleuth.sampler.probability: 1

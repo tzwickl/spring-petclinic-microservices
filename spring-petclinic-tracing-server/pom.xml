@@ -16,7 +16,7 @@
     </parent>
 
     <properties>
-        <zipkin.version>2.8.4</zipkin.version>
+        <zipkin.version>2.11.1</zipkin.version>
         <docker.image.exposed.port>8081</docker.image.exposed.port>
         <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
     </properties>
