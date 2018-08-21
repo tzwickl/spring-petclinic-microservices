@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Juergen Hoeller
@@ -58,6 +59,14 @@ class OwnerResource {
      */
     @GetMapping(value = "/{ownerId}")
     public Optional<Owner> findOwner(@PathVariable("ownerId") int ownerId) {
+        // introduce some performance problem (in the most easy way)
+        if (ownerId % 11 == 0) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return ownerRepository.findById(ownerId);
     }
 
@@ -66,7 +75,20 @@ class OwnerResource {
      */
     @GetMapping
     public List<Owner> findAll() {
+        simulateSomeCodeThatRunsSynchronized();
         return ownerRepository.findAll();
+    }
+
+    private void simulateSomeCodeThatRunsSynchronized () {
+        synchronized (OwnerResource.class) {
+            // lets wait for some time here, to make this problem
+            // happen more often
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Juergen Hoeller
@@ -74,6 +75,15 @@ class PetResource {
 
         pet.setName(petRequest.getName());
         pet.setBirthDate(petRequest.getBirthDate());
+
+        // only do that is we have a "Snake" (type 4)
+        if (petRequest.getTypeId() == 4) {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         petRepository.findPetTypeById(petRequest.getTypeId())
             .ifPresent(pet::setType);

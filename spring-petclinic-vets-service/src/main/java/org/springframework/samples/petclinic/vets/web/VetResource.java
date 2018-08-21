@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.vets.web;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.samples.petclinic.vets.model.Vet;
 import org.springframework.samples.petclinic.vets.model.VetRepository;
@@ -41,6 +42,20 @@ class VetResource {
 
     @GetMapping
     public List<Vet> showResourcesVetList() {
+        simulateSomeCodeThatRunsSynchronized();
         return vetRepository.findAll();
     }
+
+    private void simulateSomeCodeThatRunsSynchronized () {
+        synchronized (VetResource.class) {
+            // lets wait for some time here, to make this problem
+            // happen more often
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
